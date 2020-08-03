@@ -1,0 +1,106 @@
+syntax + hasil
+
+jawaban nomor 1
+
+MariaDB [(none)]> create database myshop;
+Query OK, 1 row affected (0.002 sec)
+
+jawaban nomor 2
+
+MariaDB [(none)]> use myshop;
+Database changed
+
+MariaDB [myshop]> create table users(
+    -> id int primary key auto_increment,
+    -> name varchar(255),
+    -> email varchar(255),
+    -> password varchar(255)
+    -> );
+Query OK, 0 rows affected (0.181 sec)
+
+MariaDB [myshop]> create table categories(
+    -> id int primary key auto_increment,
+    -> name varchar(255)
+    -> );
+Query OK, 0 rows affected (0.238 sec)
+
+MariaDB [myshop]> create table items(
+    -> id int primary key auto_increment,
+    -> name varchar(255),
+    -> description varchar(255),
+    -> price int,
+    -> stock int,
+    -> category_id int,
+    -> foreign key (category_id) references categories (id)
+    -> );
+Query OK, 0 rows affected (0.229 sec)
+
+jawaban nomor 3
+
+MariaDB [myshop]> insert into users values ('', 'John Doe', 'john@doe.com', 'john123');
+Query OK, 1 row affected, 1 warning (0.086 sec)
+
+MariaDB [myshop]> insert into users values ('', 'Jane Doe', 'jane@doe.com', 'jenita123');
+Query OK, 1 row affected, 1 warning (0.069 sec)
+
+MariaDB [myshop]> insert into categories (name) value
+    -> ('gadget'),
+    -> ('cloth'),
+    -> ('men'),
+    -> ('women'),
+    -> ('branded');
+Query OK, 5 rows affected (0.136 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [myshop]> insert into items(name, description, price, stock, category_id) values ("Sumsang b50", "hape keren dari merek sumsang", "4000000", "100", "1"), ("Uniklooh", "baju keren dari brand ternama", "500000", "50", "2"), ("IMHO Watch", "jam tangan anak yang jujur banget", "2000000", "10", "1");
+Query OK, 3 rows affected (0.138 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+jawaban nomor 4
+a. 
+
+MariaDB [myshop]> select id, name, email from users;
++----+----------+--------------+
+| id | name     | email        |
++----+----------+--------------+
+|  1 | John Doe | john@doe.com |
+|  2 | Jane Doe | jane@doe.com |
++----+----------+--------------+
+2 rows in set (0.001 sec)
+
+b.
+
+MariaDB [myshop]> select * from items where price > 1000000;
++----+-------------+-----------------------------------+---------+-------+-------------+
+| id | name        | description                       | price   | stock | category_id |
++----+-------------+-----------------------------------+---------+-------+-------------+
+|  2 | Sumsang b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1 |
+|  4 | IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 |
++----+-------------+-----------------------------------+---------+-------+-------------+
+2 rows in set (0.011 sec)
+
+MariaDB [myshop]> select * from items where name like "%sang%";
++----+-------------+-------------------------------+---------+-------+-------------+
+| id | name        | description                   | price   | stock | category_id |
++----+-------------+-------------------------------+---------+-------+-------------+
+|  2 | Sumsang b50 | hape keren dari merek sumsang | 4000000 |   100 |           1 |
++----+-------------+-------------------------------+---------+-------+-------------+
+1 row in set (0.001 sec)
+
+c.
+
+MariaDB [myshop]> select items.name, items.description, items.price, items.stock, items.category_id, categories.name as kategori from items inner join categories on items.category_id = categories.id;
++-------------+-----------------------------------+---------+-------+-------------+----------+
+| name        | description                       | price   | stock | category_id | kategori |
++-------------+-----------------------------------+---------+-------+-------------+----------+
+| Sumsang b50 | hape keren dari merek sumsang     | 4000000 |   100 |           1 | gadget   |
+| Uniklooh    | baju keren dari brand ternama     |  500000 |    50 |           2 | cloth    |
+| IMHO Watch  | jam tangan anak yang jujur banget | 2000000 |    10 |           1 | gadget   |
++-------------+-----------------------------------+---------+-------+-------------+----------+
+3 rows in set (0.001 sec)
+
+jawaban nomor 5
+
+MariaDB [myshop]> update items set price="2500000" where id="1";
+Query OK, 0 rows affected (0.001 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
